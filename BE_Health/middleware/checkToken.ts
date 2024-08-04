@@ -17,7 +17,7 @@ export default function validateToken(req: Request, res: Response, next: NextFun
         throw new Error('User not authorized');
       }
       console.log(decoded);
-      req.user = typeof decoded !== 'string'? decoded?.user: ''
+      (req as any).user = typeof decoded !== 'string'? decoded?.user: ''
       return next()
     });
   }else{

@@ -36,6 +36,10 @@ app.use(cors());
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
+// app.use((err: Error, req, res, next) => {
+//   console.error(err.stack)
+//   res.status(500).json({message: err.message, stack:err.stack} )
+// })
 //This middleware will allow us to pull req.body.<params>
 const port = process.env.TOKEN_SERVER_PORT;
 
@@ -118,7 +122,7 @@ app.get("/users", async (req, res, next) => {
 
 app.get("/currentuser",validateToken, async (req, res, next) => {
   try {
-    const user = await usersModel.findById(req.user.id)
+    const user = await usersModel.findById((req as any).user.id)
     console.log(user);
     res.status(200).send(user);
   } catch (error) {
