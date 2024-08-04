@@ -1,3 +1,18 @@
-BE_Health/.env
-.env
+
+# Ignore node_modules
 node_modules/
+
+# Ignore dist directory
+dist/
+
+# Ignore TypeScript cache
+*.tsbuildinfo
+
+# Ignore environment variables
+.env
+
+# Ignore log files
+*.log
+
+# Ignore macOS specific files
+.DS_Store

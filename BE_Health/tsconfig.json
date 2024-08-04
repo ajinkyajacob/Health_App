@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "target": "ES2015", // or "ES2017", "ES2020", etc.
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "typeRoots": ["./node_modules/@types", "./types.d.ts"]
+      // Add other options as needed
+    }
+  }
+  
