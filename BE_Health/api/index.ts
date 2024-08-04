@@ -54,7 +54,7 @@ app.post("/register", validate(registerZodSchema), async (req, res, next) => {
       res.status(400)  
       throw new Error('All fields are mandatory.')
     }
-    if(await usersModel.findOne({email})){
+    if(await usersModel.findOne({email: email})){
       res.status(400)  
       throw new Error('User already registered.')
     }
