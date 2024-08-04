@@ -7,7 +7,7 @@ export default function validateToken(req: Request, res: Response, next: NextFun
   const { authorization } = req.headers;
   let token = '';
   if (authorization && authorization.startsWith('Bearer')) {
-    token = authorization.split(' ')[0];
+    token = authorization.split(' ')[1];
   }
   if(token){
     

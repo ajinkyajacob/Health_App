@@ -1,3 +1,4 @@
+import { Db } from "mongodb";
 import { model, Schema } from "mongoose";
 import { z } from "zod";
 
@@ -34,3 +35,7 @@ export const usersModel = model(
   export const loginZodSchema = z.object({
     body: z.object(commonField),
   });
+  // const nativeUserModel = (db: Db ) => {
+  //   const users = db.collection('users')
+  //   return users.find({})
+  // }

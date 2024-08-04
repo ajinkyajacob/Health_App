@@ -7,12 +7,15 @@ import { usersModel, registerZodSchema, loginZodSchema } from "../controllers/us
 import { validate } from "../utils/zodValidation";
 import { z } from "zod";
 
+import { connectDB as connectDBNative } from "../utils/mongodbConnection";
+
 import cors  from "cors";
 
 import { sign } from "jsonwebtoken";
 import { error } from "console";
 import morgan from "morgan";
 import validateToken from "../middleware/checkToken";
+import { ObjectId } from "mongodb";
 
 configDotenv();
 
@@ -56,6 +59,8 @@ app.get("/", async (req, res) => {
 
 // REGISTER A USER
 app.post("/register", validate(registerZodSchema), async (req, res, next) => {
+  const {db,close} = await connectDBNative()
+  const users = db.collection("users");
   try {
     const {username, password, email} = (req as z.infer<typeof registerZodSchema>).body;
     const hashedPassword = hashSync(password, 10);
@@ -63,22 +68,26 @@ app.post("/register", validate(registerZodSchema), async (req, res, next) => {
       res.status(400)  
       throw new Error('All fields are mandatory.')
     }
-    if(await usersModel.findOne({email: email})){
+    if(await users.findOne({email: email})){
       res.status(400)  
       throw new Error('User already registered.')
     }
-    const user = await usersModel.create({  username, password: hashedPassword, email  });
-    res.status(201).send(user);
+    const user = await users.insertOne({  username, password: hashedPassword, email  });
+    res.status(201).send(await users.findOne({_id:user.insertedId}));
+    close()
   } catch (error) {
     next(error)
+    close()
   }
 });
 
 // LOGIN A USER
 app.post('/login',validate(loginZodSchema),async (req,res,next) =>{
+  const {db,close} = await connectDBNative()
+  const users = db.collection('users')
   try {
     const { password, email} = (req as z.infer<typeof loginZodSchema>).body;
-    const user = await usersModel.findOne({email})
+    const user = await users.findOne({email})
     if (!user) {
       res.status(400)
       throw new Error('Email not found')
@@ -88,19 +97,21 @@ app.post('/login',validate(loginZodSchema),async (req,res,next) =>{
         user:{
           email: user.email,
           username: user.username,
-          id: user.id
+          id: user._id
         }
       },process.env.ACCESS_TOKEN_SECRET ?? '',{expiresIn:'10m'})
       res.status(200).json({
         token,
-        id:user.id
+        id:user._id
       })
+      close()
     }else{
       res.status(401)
       throw new Error('Password mismatch!')
     }
   } catch (error) {
     next(error)
+    close()
   }
 })
 
@@ -116,22 +127,28 @@ app.get('/dblist', async (req, res, next) => {
 
 
 app.get("/users", async (req, res, next) => {
+  const {db,close} = await connectDBNative()
+  const users = db.collection('users')
   try {
-    const users = await usersModel.find({})
-    console.log(users);
-    res.status(201).send(users);
+    const usersData = await users.find({})
+    res.status(201).send(usersData);
+    close()
   } catch (error) {
     next(error)
+    close()
   }
 });
 
 app.get("/currentuser",validateToken, async (req, res, next) => {
+  const {db,close} = await connectDBNative()
+  const users = db.collection('users')
   try {
-    const user = await usersModel.findById((req as any).user.id)
-    console.log(user);
+    const user = await users.findOne({_id: ObjectId.createFromHexString((req as any).user.id)})
     res.status(200).send(user);
+    close()
   } catch (error) {
     next(error)
+    close()
   }
 });
 
