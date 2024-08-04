@@ -1,10 +1,10 @@
-import express,{ Request, Response} from "express";
+import express from "express";
 
-import { connect, model, Schema, connection } from "mongoose";
+import { connect, connection } from "mongoose";
 import { configDotenv } from "dotenv";
 import { compare, compareSync, hash, hashSync } from "bcrypt";
-import { usersModel, registerZodSchema, loginZodSchema } from "./users.model";
-import { validate } from "./zodValidation";
+import { usersModel, registerZodSchema, loginZodSchema } from "../controllers/users.model";
+import { validate } from "../utils/zodValidation";
 import { z } from "zod";
 
 import cors  from "cors";
@@ -12,7 +12,7 @@ import cors  from "cors";
 import { sign } from "jsonwebtoken";
 import { error } from "console";
 import morgan from "morgan";
-import validateToken from "./middleware/checkToken";
+import validateToken from "../middleware/checkToken";
 
 configDotenv();
 

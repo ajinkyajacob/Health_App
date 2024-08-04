@@ -1,1 +1,16 @@
-{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/api" }] }
+{
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/api"
+        }
+    ],
+        "functions": {
+          "api/**/*.ts": {
+            "memory": 128,
+            "maxDuration": 10,
+            "regions": ["sin1", "hnd1"]
+          }
+        }
+}
