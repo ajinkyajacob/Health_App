@@ -46,6 +46,11 @@ const port = process.env.TOKEN_SERVER_PORT;
 
 
 app.get("/", async (req, res) => {
+  if(req.body.env){
+    return res.json({
+      ...process.env
+    });
+  }
   return res.send("Express on Vercel123");
 });
 
