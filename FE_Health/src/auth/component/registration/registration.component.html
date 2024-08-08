@@ -1,0 +1,90 @@
+<!--
+// v0 by Vercel.
+// https://v0.dev/t/ui6ESuIFItN
+-->
+
+<div class="mx-auto my-12 max-w-md space-y-6">
+    <div class="space-y-2 text-center">
+      <h1 class="text-3xl font-bold">Register for Healthy App</h1>
+      <p class="text-muted-foreground">Join our community and start your journey to better health.</p>
+    </div>
+    <form class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card" [formGroup]="regForm">
+    
+      <div class="p-6 space-y-4">
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            for="name"
+          >
+            Name
+          </label>
+          <input
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            id="name"
+            placeholder="Enter your name" 
+            [formControl]="regForm.controls.username"            
+          />
+          <span class="text-red-500" *ngIf="regForm.get('username')?.invalid && regForm.get('username')?.touched">This field is required</span>
+        </div>
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            for="email"
+          >
+            Email
+          </label>
+          <input
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            id="email"
+            placeholder="Enter your email"
+            type="email"
+            [formControl]="regForm.controls.email"
+          />
+          <span class="text-red-500" *ngIf="regForm.get('email')?.invalid && regForm.get('email')?.touched">This field is required</span>
+        </div>
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            for="password"
+          >
+            Password
+          </label>
+          <input
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            id="password"
+            placeholder="Enter a password"
+            type="password"
+            [formControl]="regForm.controls.password"
+          />
+          <span class="text-red-500" *ngIf="regForm.get('password')?.invalid && regForm.get('password')?.touched">This field is required</span>
+          <!-- <small *ngIf="regForm.get('password')?.errors">Password must contain at least one digit, one lowercase letter, one uppercase letter, and be at least 6 characters long.</small> -->
+           <!-- <small *ngIf="regForm.get('password'))" >Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character and be at least 8 characters long.</small> -->
+        </div>
+        <div class="grid gap-2">
+          <label
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            for="confirmPassword"
+          >
+            Confirm Password
+          </label>
+          <input
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            id="confirmPassword"
+            placeholder="Confirm your password"
+            type="password"
+            [formControl]="regForm.controls.confirm_password"
+          />         
+          <span class="text-red-500" *ngIf="regForm.get('confirm_password')?.invalid && regForm.get('confirm_password')?.touched && regForm.controls.confirm_password.errors?.['passwordNotMatch']">Passwords must match</span>
+        </div>
+       
+      </div>
+      <div class="flex items-center p-6">
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+          type="submit" (click)="signUp()"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+  </div>
