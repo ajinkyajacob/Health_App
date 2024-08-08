@@ -10,9 +10,14 @@ import { Observable } from 'rxjs';
 export class AuthService { 
   constructor(private http: HttpClient) {}
 
-  OnLogin(user: any):Observable<any> {
+  onLogin(user: any):Observable<any> {
     console.log("user details coming",user);
-    return this.http.post("https://api.freeapi.app/api/v1/users/login", user)
+    return this.http.post("https://be-health.vercel.app/login", user)
+  }
+
+  onSignUp(newUser: {username: string, email: string, password: string}):Observable<any> {
+    console.log(newUser);
+    return this.http.post("https://be-health.vercel.app/register", newUser)
   }
 
 }
