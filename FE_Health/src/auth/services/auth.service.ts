@@ -16,7 +16,7 @@ export class AuthService {
   }
 
   onSignUp(newUser: {username: string, email: string, password: string}):Observable<any> {
-    console.log(newUser);
+    console.log(newUser);    
     return this.http.post("https://be-health.vercel.app/register", newUser)
   }
 

@@ -40,11 +40,20 @@ export class RegistrationComponent {
       validators: passwordMatchValidator,
     }
   );
-
+  
   signUp() {
-    //  debugger
+    const formValues = this.regForm.value as { username: string; email: string; password: string;};
     if (this.regForm.valid) {
-      this.auth.onSignUp();    }
+      this.auth.onSignUp(formValues).subscribe(
+        (data) => {
+          alert("New user created");
+          console.log(data);
+        },
+        (error) => {
+          console.log(error)
+        }
+      );   
+     }
     return;
   }
 
